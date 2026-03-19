@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'providers/session_provider.dart';
+import 'providers/product_provider.dart';
+import 'screens/auth_gate.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,15 +13,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'DummyJSON Store',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorSchemeSeed: Colors.deepPurple,
-        useMaterial3: true,
-      ),
-      home: const Scaffold(
-        body: Center(child: Text('DummyJSON Store')),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => SessionProvider()),
+        ChangeNotifierProvider(create: (_) => ProductProvider()),
+      ],
+      child: MaterialApp(
+        title: 'DummyJSON Store',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorSchemeSeed: Colors.deepPurple,
+          useMaterial3: true,
+        ),
+        home: const AuthGate(),
       ),
     );
   }
