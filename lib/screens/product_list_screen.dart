@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import '../providers/session_provider.dart';
+import '../widgets/product_card.dart';
+import 'product_detail_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -79,9 +81,16 @@ class _ProductListScreenState extends State<ProductListScreen> {
       itemCount: provider.products.length,
       itemBuilder: (context, index) {
         final product = provider.products[index];
-        return ListTile(
-          title: Text(product.title),
-          subtitle: Text('R\$ ${product.price.toStringAsFixed(2)}'),
+        return ProductCard(
+          product: product,
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductDetailScreen(product: product),
+              ),
+            );
+          },
         );
       },
     );
