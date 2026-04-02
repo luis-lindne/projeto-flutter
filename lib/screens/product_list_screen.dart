@@ -4,6 +4,7 @@ import '../providers/product_provider.dart';
 import '../providers/session_provider.dart';
 import '../widgets/product_card.dart';
 import 'product_detail_screen.dart';
+import 'product_form_screen.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -23,6 +24,29 @@ class _ProductListScreenState extends State<ProductListScreen> {
     });
   }
 
+  void _confirmDelete(int productId) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Excluir produto'),
+        content: const Text('Deseja realmente excluir este produto?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancelar'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              context.read<ProductProvider>().deleteProduct(productId);
+            },
+            child: const Text('Excluir', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final session = context.watch<SessionProvider>();
@@ -40,6 +64,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
             },
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const ProductFormScreen()),
+          );
+        },
+        child: const Icon(Icons.add),
       ),
       body: _buildBody(productProvider),
     );
@@ -91,6 +124,15 @@ class _ProductListScreenState extends State<ProductListScreen> {
               ),
             );
           },
+          onEdit: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ProductFormScreen(product: product),
+              ),
+            );
+          },
+          onDelete: () => _confirmDelete(product.id),
         );
       },
     );

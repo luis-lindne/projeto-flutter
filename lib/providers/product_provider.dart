@@ -27,4 +27,43 @@ class ProductProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> addProduct({
+    required String title,
+    required double price,
+    required String description,
+  }) async {
+    final product = await _productService.addProduct(
+      title: title,
+      price: price,
+      description: description,
+    );
+    _products.insert(0, product);
+    notifyListeners();
+  }
+
+  Future<void> updateProduct(
+    int id, {
+    required String title,
+    required double price,
+    required String description,
+  }) async {
+    final updated = await _productService.updateProduct(
+      id,
+      title: title,
+      price: price,
+      description: description,
+    );
+    final index = _products.indexWhere((p) => p.id == id);
+    if (index != -1) {
+      _products[index] = updated;
+      notifyListeners();
+    }
+  }
+
+  Future<void> deleteProduct(int id) async {
+    await _productService.deleteProduct(id);
+    _products.removeWhere((p) => p.id == id);
+    notifyListeners();
+  }
 }

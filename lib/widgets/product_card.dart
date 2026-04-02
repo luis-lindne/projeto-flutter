@@ -4,11 +4,15 @@ import '../models/product.dart';
 class ProductCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   const ProductCard({
     super.key,
     required this.product,
     required this.onTap,
+    this.onEdit,
+    this.onDelete,
   });
 
   @override
@@ -41,6 +45,21 @@ class ProductCard extends StatelessWidget {
             color: Colors.green.shade700,
             fontWeight: FontWeight.bold,
           ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (onEdit != null)
+              IconButton(
+                icon: const Icon(Icons.edit, size: 20),
+                onPressed: onEdit,
+              ),
+            if (onDelete != null)
+              IconButton(
+                icon: const Icon(Icons.delete, size: 20, color: Colors.red),
+                onPressed: onDelete,
+              ),
+          ],
         ),
         onTap: onTap,
       ),
