@@ -3,6 +3,8 @@ import '../models/product.dart';
 
 class ProductCard extends StatelessWidget {
   final Product product;
+  final bool isFavorite;
+  final VoidCallback onFavoriteToggle;
   final VoidCallback onTap;
   final VoidCallback? onEdit;
   final VoidCallback? onDelete;
@@ -10,6 +12,8 @@ class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
     required this.product,
+    required this.isFavorite,
+    required this.onFavoriteToggle,
     required this.onTap,
     this.onEdit,
     this.onDelete,
@@ -49,6 +53,14 @@ class ProductCard extends StatelessWidget {
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
+            IconButton(
+              icon: Icon(
+                isFavorite ? Icons.favorite : Icons.favorite_border,
+                color: isFavorite ? Colors.red : null,
+                size: 20,
+              ),
+              onPressed: onFavoriteToggle,
+            ),
             if (onEdit != null)
               IconButton(
                 icon: const Icon(Icons.edit, size: 20),

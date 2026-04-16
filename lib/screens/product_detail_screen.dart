@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product.dart';
+import '../providers/product_provider.dart';
 
 class ProductDetailScreen extends StatelessWidget {
   final Product product;
@@ -8,9 +10,19 @@ class ProductDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = context.watch<ProductProvider>();
+    final isFav = provider.isFavorite(product.id);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(product.title),
+        actions: [
+          IconButton(
+            icon: Icon(isFav ? Icons.favorite : Icons.favorite_border),
+            color: isFav ? Colors.red : null,
+            onPressed: () => provider.toggleFavorite(product.id),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

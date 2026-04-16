@@ -6,12 +6,27 @@ class ProductProvider extends ChangeNotifier {
   final _productService = ProductService();
 
   List<Product> _products = [];
+  final Set<int> _favoriteIds = {};
   bool _loading = false;
   String? _error;
 
   List<Product> get products => _products;
   bool get loading => _loading;
   String? get error => _error;
+
+  bool isFavorite(int productId) => _favoriteIds.contains(productId);
+
+  List<Product> get favorites =>
+      _products.where((p) => _favoriteIds.contains(p.id)).toList();
+
+  void toggleFavorite(int productId) {
+    if (_favoriteIds.contains(productId)) {
+      _favoriteIds.remove(productId);
+    } else {
+      _favoriteIds.add(productId);
+    }
+    notifyListeners();
+  }
 
   Future<void> fetchProducts() async {
     _loading = true;

@@ -116,6 +116,8 @@ class _ProductListScreenState extends State<ProductListScreen> {
         final product = provider.products[index];
         return ProductCard(
           product: product,
+          isFavorite: provider.isFavorite(product.id),
+          onFavoriteToggle: () => provider.toggleFavorite(product.id),
           onTap: () {
             Navigator.push(
               context,
