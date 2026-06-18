@@ -1,4 +1,4 @@
-# mobile_arquitetura_01
+# Projeto Flutter
 
 Aplicativo Flutter para dispositivos moveis com autenticacao de usuario, gerenciamento de sessao e consumo da API DummyJSON para listagem e manipulacao de produtos.
 
